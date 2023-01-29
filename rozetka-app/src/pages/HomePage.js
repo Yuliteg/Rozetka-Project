@@ -41,7 +41,6 @@ const Wrapper = styled.div`
    margin-right: 2rem;
    margin-top: 2.5rem;
 
-
    .category-name {
     font-size: 36px;
     line-height: 42px;
