@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import CheckBoxEl from './CheckBox';
 import PriceFilter from './PriceFilter';
 
-const Filter = ({ goods }) => {
+const Sidebar = ({ goods }) => {
 
   return (
     <>
@@ -16,7 +16,7 @@ const Filter = ({ goods }) => {
   )
 }
 
-export default Filter
+export default Sidebar
 
 const Wrapper = styled.div`
   .input {

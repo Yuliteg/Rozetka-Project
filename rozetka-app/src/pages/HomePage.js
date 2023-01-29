@@ -1,5 +1,5 @@
 import Products from "../components/Products";
-import Filter from "../components/Filter";
+import Sidebar from "../components/Sidebar";
 import Sort from "../components/Sort";
 import { useSelector, useDispatch } from "react-redux";
 import { selectGoods } from "../store/goodsSlice";
@@ -17,10 +17,12 @@ const HomePage = () => {
        <div className="sort-section-container">
           <Sort />
        </div>
+
       <div className="section-center">
-        <div className="filter-container">
-          <Filter goods={goods}/>
+        <div className="sidebar-container">
+          <Sidebar goods={goods}/>
         </div>
+
         <div className="products-container">
           <Products goods={goods}/>
         </div>
