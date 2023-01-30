@@ -1,11 +1,1 @@
-// import {Dispatch} from '@reduxjs/toolkit';
-
-// export const fetchGoods = () => {
-//     return (dispatch: Dispatch) => {
-//       try {
-        
-//       } catch (error) {
-        
-//       }
-//     }
-// }
+export const UPDATE_SORT = 'UPDATE_SORT';

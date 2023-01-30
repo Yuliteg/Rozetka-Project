@@ -2,7 +2,7 @@ import Sort from "../components/Sort";
 import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components';
 import { useEffect } from "react";
-import { getGoods } from "../store/goodsSlice";
+import { getGoods } from "../store/slices/goodsSlice";
 import Loading from "../components/Loading";
 import MainContainer from "../components/MainContainer";
 
@@ -14,11 +14,12 @@ const HomePage = () => {
     dispatch(getGoods())
   }, [dispatch]);
 
+
   return (
    <Wrapper>
        {isLoading && <Loading />}
        {isError && <h2 style={{color: "red", textAlign: "center"}}>Something went wrong</h2>}
-       {goods && <MainContainer goods={goods.results}/>}
+       {goods && <MainContainer goods={goods.results} />}
     </Wrapper>
   )
 }

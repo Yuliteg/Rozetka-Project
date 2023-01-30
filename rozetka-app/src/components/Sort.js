@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 
 const options = [
-  { value: 'Від дешевих до дорогих', label: 'Від дешевих до дорогих' },
-  { value: 'Від дорогих до дешевих', label: 'Від дорогих до дешевих' },
-  { value: 'За рейтингом', label: 'За рейтингом' }
+  { value: 'price-lowest', label: 'Від дешевих до дорогих'},
+  { value: 'price-highests', label: 'Від дорогих до дешевих'},
+  { value: 'price-rating', label: 'За рейтингом'}
 ]
 
 const colorStyles = {
@@ -23,7 +23,11 @@ const Sort = () => {
     return (
       <>
          <Wrapper>
-            <Select options={options} styles={colorStyles} defaultValue={options[0]}/>
+            <Select 
+              options={options}
+              styles={colorStyles}
+              defaultValue={options[0]}
+              />
          </Wrapper>
         </>
     )

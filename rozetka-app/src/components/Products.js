@@ -32,9 +32,8 @@ const Wrapper = styled.article`
 
     img {
   width: 100%;
-  border-radius: 15px;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
     }
 
   header {
