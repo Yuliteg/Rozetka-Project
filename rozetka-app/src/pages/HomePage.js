@@ -1,32 +1,24 @@
-import Products from "../components/Products";
-import Sidebar from "../components/Sidebar";
 import Sort from "../components/Sort";
 import { useSelector, useDispatch } from "react-redux";
-import { selectGoods } from "../store/goodsSlice";
 import styled from 'styled-components';
+import { useEffect } from "react";
+import { getGoods } from "../store/goodsSlice";
+import Loading from "../components/Loading";
+import MainContainer from "../components/MainContainer";
 
 const HomePage = () => {
-  const goods = useSelector(selectGoods);
   const dispatch = useDispatch();
+  const {goods, isLoading, isError} = useSelector((state) => state.goods);
+
+  useEffect(() => {
+    dispatch(getGoods())
+  }, [dispatch]);
 
   return (
-    <Wrapper>
-      <div className="category-name">
-        <p>Монітори</p>
-      </div>
-       <div className="sort-section-container">
-          <Sort />
-       </div>
-
-      <div className="section-center">
-        <div className="sidebar-container">
-          <Sidebar goods={goods}/>
-        </div>
-
-        <div className="products-container">
-          <Products goods={goods}/>
-        </div>
-      </div>
+   <Wrapper>
+       {isLoading && <Loading />}
+       {isError && <h2 style={{color: "red", textAlign: "center"}}>Something went wrong</h2>}
+       {goods && <MainContainer goods={goods.results}/>}
     </Wrapper>
   )
 }
@@ -50,7 +42,7 @@ const Wrapper = styled.div`
     display: flex;
     flex: 1;
 
-    .filter-container {
+    .sidebar-container {
     width: 20%;
     border-top: 1px solid #e9e9e9;
     border-right: 1px solid #e9e9e9;
@@ -61,5 +53,9 @@ const Wrapper = styled.div`
     border-top: 1px solid #e9e9e9;
     border-right: 1px solid #e9e9e9;
      }
+   }
+   .error {
+    text-align: center;
+    color: red;
    }
   `

@@ -7,8 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-library.add(faUser, faBasketShopping)
+import { TiShoppingCart } from "react-icons/ti";
+import { FaUserAlt } from "react-icons/fa";
 
+library.add(faUser, faBasketShopping)
 
 const Navbar = () => {
   return (
@@ -29,10 +31,10 @@ const Navbar = () => {
                 Найти
               </Button>
             </InputGroup>
-              <div className="icon-user-basket">
-              <FontAwesomeIcon icon="fa-user" />
-              <FontAwesomeIcon icon="fa-basket-shopping" className='basket'/>
-              </div>
+            <div className="icon-user-basket">
+              <div><TiShoppingCart className='basket-icon' /></div>
+              <div><FaUserAlt className='user-icon' /></div>
+            </div>
           </div>
         </div>
       </NavContainer>
@@ -61,6 +63,32 @@ const NavContainer = styled.nav`
     width: 24px;
     height: 24px;
     fill: #fff;
+    }
+
+    .icon-user-basket {
+    width: 8%;
+    margin-left: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    }
+
+    .basket-icon {
+    color: white;
+    width: 26px;
+    height: 26px;
+    fill: #fff; 
+    }
+
+    .user-icon {
+    color: white;
+    width: 23px;
+    height: 23px;
+    fill: #fff; 
+
+    @media (max-width: 768px) {
+      display: none;
+      }
     }
 
     .my-logo {
@@ -100,30 +128,9 @@ const NavContainer = styled.nav`
        .header-btn {
         background-color: #00a046;
        }
-     }
-
-    .icon-user-basket {
-      margin-left: 10%;
-      display: flex;
-      gap: 70%;
-
-
-      .fa-user {
-       color: white;
-       font-size: 21px;
-
-       @media (max-width: 1200px) {
-       display: none;
-       }
-      }
-
-      .basket {
-        color: white;
-        font-size: 20px;
       }
      }
     }
-   }
   `
 
 
