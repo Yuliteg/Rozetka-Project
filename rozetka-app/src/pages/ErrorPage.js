@@ -15,8 +15,8 @@ const ErrorPage = () => {
   )
 }
 
-export default ErrorPage
 
+export default ErrorPage
 
 const Wrapper = styled.div`
   display: flex;

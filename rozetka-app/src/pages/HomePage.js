@@ -2,27 +2,40 @@ import Sort from "../components/Sort";
 import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components';
 import { useEffect } from "react";
-import { getGoods } from "../store/slices/goodsSlice";
+import { getGoods } from "../store/slices/filtersGoodsSlice";
 import Loading from "../components/Loading";
 import MainContainer from "../components/MainContainer";
 
-const HomePage = () => {
-  const dispatch = useDispatch();
-  const {goods, isLoading, isError} = useSelector((state) => state.goods);
 
-  useEffect(() => {
-    dispatch(getGoods())
-  }, [dispatch]);
+const HomePage = ({goods, isLoading, isError}) => {
 
+  const { sort } = useSelector(store => store.product);
+
+  const sortProducts = () => {
+    let sortedProducts = goods;
+    if (sort) {         
+       sortedProducts = sortedProducts.slice().sort((a,b) => {
+          if(sort === 'price-lowest') {
+            return a.price - b.price;
+          } else if(sort === 'price-highests') {
+            return b.price - a.price;
+          } else if(sort === 'price-rating') {
+            return b.rate - a.rate;
+          }
+    });
+   }
+    return sortedProducts;
+ }
 
   return (
    <Wrapper>
        {isLoading && <Loading />}
        {isError && <h2 style={{color: "red", textAlign: "center"}}>Something went wrong</h2>}
-       {goods && <MainContainer goods={goods.results} />}
+       {goods && <MainContainer goods={goods} sortProducts={sortProducts}/>}
     </Wrapper>
   )
 }
+
 
 export default HomePage
 
@@ -55,6 +68,7 @@ const Wrapper = styled.div`
     border-right: 1px solid #e9e9e9;
      }
    }
+
    .error {
     text-align: center;
     color: red;

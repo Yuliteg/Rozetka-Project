@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form';
 
 const CheckboxEl = ({ goods }) => {
 
-    const categories = getUniqueValues(goods, 'seller')
-    const brand = getUniqueValues(goods, 'brand')
-    const country = getUniqueValues(goods, 'country')
+    const categories = getUniqueValues(goods, 'seller');
+    const brand = getUniqueValues(goods, 'brand');
+    const country = getUniqueValues(goods, 'country');
 
 
     return (
@@ -31,6 +31,7 @@ const CheckboxEl = ({ goods }) => {
                         placeholder="Пошук"
                         className="input-brand-control"/>
                 </InputGroup>
+
                 {brand.map((item, index) => {
                     return (
                         <div key={index} className="column">
@@ -55,5 +56,6 @@ const CheckboxEl = ({ goods }) => {
         </>
     )
 }
+
 
 export default CheckboxEl

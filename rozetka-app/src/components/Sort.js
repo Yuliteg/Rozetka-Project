@@ -1,42 +1,67 @@
 import Select from 'react-select'
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { sortByPrice, clearFilters, updateSort } from '../store/slices/filtersGoodsSlice';
 
 
 const options = [
-  { value: 'price-lowest', label: 'Від дешевих до дорогих'},
-  { value: 'price-highests', label: 'Від дорогих до дешевих'},
-  { value: 'price-rating', label: 'За рейтингом'}
+  { value: 'price-lowest', label: 'Від дешевих до дорогих' },
+  { value: 'price-highests', label: 'Від дорогих до дешевих' },
+  { value: 'price-rating', label: 'За рейтингом' }
 ]
 
 const colorStyles = {
-    control: (styles) => ({...styles, borderColor: "black"}),
-    dropdownIndicator: (provided) => ({
-        ...provided,
-        "svg": {
-          fill: "#3e77aa"
-        }
-      }),
+  control: (styles) => ({ ...styles, borderColor: "black" }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    "svg": {
+      fill: "#3e77aa"
+    }
+  }),
 }
 
-const Sort = () => {
 
-    return (
-      <>
-         <Wrapper>
-            <Select 
-              options={options}
-              styles={colorStyles}
-              defaultValue={options[0]}
-              />
-         </Wrapper>
-        </>
-    )
+const Sort = ({ goods }) => {
+  const { sort, sortValue } = useSelector(store => store.product);
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    dispatch(sortByPrice(e.value));        
   }
-  
-  export default Sort
 
-  const Wrapper = styled.div`
+  return (
+    <>
+      <Wrapper>
+     <Select
+            styles={colorStyles}
+            defaultValue={options[0]}
+            options={options} 
+            onChange={(e) => handleChange(e)}  
+            > 
+       </Select>        
+      </Wrapper>
+    </>
+  )
+}
+
+
+export default Sort
+
+const Wrapper = styled.div`
    margin-right: 3.5rem;
    float: right;
    width: 15%;
+
+   .sort-input {
+    border-color: transparent;
+    font-size: 1rem;
+    text-transform: capitalize;
+    padding: 0.5rem;
+  }
+  
+  label {
+    padding-right: 3%;
+    font-size: 1rem;
+    text-transform: capitalize;
+  }
   `

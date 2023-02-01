@@ -1,13 +1,10 @@
 import { TiShoppingCart } from "react-icons/ti";
-import {AiFillStar} from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
 
-const SingleProd = ({ goods }) => {
+const SingleProd = ({ item }) => {
+   const {id, name, img, price, rate, status} = item;
 
   return (
-    <>
-      {goods.map((item) => {
-        const { id, name, img, price, rate, status } = item;
-        return (
           <div className="product-container" key={id}>
             <img src={img} alt="prod-img" />
             <header>
@@ -21,10 +18,7 @@ const SingleProd = ({ goods }) => {
             <p className="status">{status}</p>
           </div>
         )
-      })}
-    </>
-  )
-}
+      }
 
 
 export default SingleProd;

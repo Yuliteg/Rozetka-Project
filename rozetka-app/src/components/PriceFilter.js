@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
 const PriceFilter = () => {
-    const updateFilters = () => {
-        console.log('Hello');
-    }
 
     return (
         <PriceFilterWrapper>
@@ -17,7 +14,6 @@ const PriceFilter = () => {
                     type='range'
                     name='price'
                     className='search-input'
-                    onChange={updateFilters}
                     min='10'
                     max='500'
                 />
@@ -25,8 +21,6 @@ const PriceFilter = () => {
         </PriceFilterWrapper>
     );
 };
-
-
 
 
 export default PriceFilter

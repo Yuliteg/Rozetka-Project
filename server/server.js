@@ -114,12 +114,7 @@ app.get('/products', auth, (req, res) => {
       .filter(item => item.countries.includes(filters.country))
       .filter(item => item.region.includes(filters.region))
   }
-  const data = {
-    count: Math.ceil(airports.length / count),
-    next: 2,
-    previous: 1,
-    results: airports.slice((page - 1) * count, page * count)
-  }
+  const data = airports.slice((page - 1) * count, page * count)
   res.send(data);
 });
 

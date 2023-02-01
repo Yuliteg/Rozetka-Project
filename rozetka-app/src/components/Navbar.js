@@ -3,14 +3,10 @@ import { ThreeBars } from '@styled-icons/octicons';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBasketShopping } from "@fortawesome/free-solid-svg-icons";
-import { library } from '@fortawesome/fontawesome-svg-core'
-
 import { TiShoppingCart } from "react-icons/ti";
 import { FaUserAlt } from "react-icons/fa";
 
-library.add(faUser, faBasketShopping)
+
 
 const Navbar = () => {
   return (
