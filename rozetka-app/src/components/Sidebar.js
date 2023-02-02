@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import CheckBoxEl from './CheckBox';
-import PriceFilter from './PriceFilter';
+import Filter from './Filter';
+import PriceFilter from './filters/PriceFilter';
 
 const Sidebar = ({ goods }) => {
 
@@ -8,8 +8,7 @@ const Sidebar = ({ goods }) => {
     <>
       <Wrapper>
         <div className='input'>
-          <CheckBoxEl goods={goods} />
-          <PriceFilter />
+          <Filter goods={goods} />
         </div>
       </Wrapper>
     </>

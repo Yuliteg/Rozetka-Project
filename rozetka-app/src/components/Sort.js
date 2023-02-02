@@ -1,7 +1,7 @@
 import Select from 'react-select'
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { sortByPrice, clearFilters, updateSort } from '../store/slices/filtersGoodsSlice';
+import { sortByPrice, clearFilters } from '../store/slices/filtersGoodsSlice';
 
 
 const options = [
@@ -22,7 +22,7 @@ const colorStyles = {
 
 
 const Sort = ({ goods }) => {
-  const { sort, sortValue } = useSelector(store => store.product);
+  const { sort } = useSelector(store => store.product);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {

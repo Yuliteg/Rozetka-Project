@@ -18,8 +18,8 @@ const Products = ({ goods, sortProducts }) => {
   )
 }
 
-export default Products
 
+export default Products
 
 const Wrapper = styled.article`
   display: grid;

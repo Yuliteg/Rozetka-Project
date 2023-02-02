@@ -1,15 +1,11 @@
-import Sort from "../components/Sort";
 import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components';
-import { useEffect } from "react";
-import { getGoods } from "../store/slices/filtersGoodsSlice";
 import Loading from "../components/Loading";
 import MainContainer from "../components/MainContainer";
 
 
 const HomePage = ({goods, isLoading, isError}) => {
-
-  const { sort } = useSelector(store => store.product);
+  const { sort, bySeller } = useSelector(store => store.product);
 
   const sortProducts = () => {
     let sortedProducts = goods;
@@ -24,6 +20,10 @@ const HomePage = ({goods, isLoading, isError}) => {
           }
     });
    }
+   if(bySeller) {
+    sortedProducts = sortedProducts.filter(item => item.seller == bySeller)
+   }
+
     return sortedProducts;
  }
 

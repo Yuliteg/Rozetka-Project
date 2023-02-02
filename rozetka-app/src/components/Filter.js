@@ -1,25 +1,33 @@
+import { useSelector, useDispatch } from "react-redux";
+import { filterSeller } from "../store/slices/filtersGoodsSlice";
 import { getUniqueValues } from '../helpersFunction/UniqueValues';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import PriceFilter from './filters/PriceFilter';
+import SellerFilter from './filters/SellerFilter';
+import BrandFilter from './filters/BrandFilter';
 
-const CheckboxEl = ({ goods }) => {
+const Filter = ({ goods }) => {
+    const product  = useSelector(store => store.product);
+    const dispatch = useDispatch();
 
-    const categories = getUniqueValues(goods, 'seller');
+    const { bySeller } = product;
+
+    const seller = getUniqueValues(goods, 'seller');
     const brand = getUniqueValues(goods, 'brand');
     const country = getUniqueValues(goods, 'country');
-
 
     return (
         <>
             <div className="seller-container checkbox-group">
                 <p className='input-name'>Продавець</p>
-                {categories.map((item, index) => {
+                {seller.map((item, index) => {
                     return (
-                        <div key={index} className="column">
-                            <input type="checkbox" name="name" value="value" className='checkbox' />
-                            <label>{item}</label>
-                        </div>
+                        <SellerFilter
+                            item={item}
+                            key={index}
+                            bySeller={bySeller}
+                        />
                     )
                 })}
             </div>
@@ -29,15 +37,12 @@ const CheckboxEl = ({ goods }) => {
                 <InputGroup className='input-brand-search'>
                     <Form.Control
                         placeholder="Пошук"
-                        className="input-brand-control"/>
+                        className="input-brand-control" />
                 </InputGroup>
 
                 {brand.map((item, index) => {
                     return (
-                        <div key={index} className="column">
-                            <input type="checkbox" name="name" value="value" className='checkbox' />
-                            <label>{item}</label>
-                        </div>
+                        <BrandFilter item={item} key={index} />
                     )
                 })}
             </div>
@@ -53,9 +58,10 @@ const CheckboxEl = ({ goods }) => {
                     )
                 })}
             </div>
+            <PriceFilter />
         </>
     )
 }
 
 
-export default CheckboxEl
+export default Filter;
