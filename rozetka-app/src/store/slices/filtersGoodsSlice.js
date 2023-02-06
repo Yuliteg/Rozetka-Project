@@ -5,6 +5,7 @@ const initialState = {
   bySeller: null,
   byCountry: null,
   byBrand: null,
+  price: [],
 }
 
 export const filterSlice = createSlice({
@@ -32,6 +33,9 @@ export const filterSlice = createSlice({
     removeBrandFilter: (state, action) => {
       state.byBrand = null;
     },
+    addPrice: (state, action) => {
+      state.price = action.payload;
+    },
     clearFilters: (state) => {
       state.sort = '';
     }
@@ -46,5 +50,6 @@ export const {
   addCountryFilter,
   removeCountryFilter,
   addBrandFilter,
-  removeBrandFilter } = filterSlice.actions;
+  removeBrandFilter,
+  addPrice } = filterSlice.actions;
 export default filterSlice.reducer;

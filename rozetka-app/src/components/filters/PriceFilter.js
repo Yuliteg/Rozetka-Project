@@ -1,24 +1,40 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import { addPrice } from '../../store/slices/filtersGoodsSlice';
+import { useEffect } from 'react';
 
 const PriceFilter = ({ maxPrice }) => {
-    const [priceValue, setPriceValue] = useState([0, 50]);
+    const dispatch = useDispatch();
+    const [priceValue, setPriceValue] = useState([0, maxPrice]);
 
     const handlePrice = (e) => {
         setPriceValue(e.target.value);
     }
+
+    useEffect(() => {
+        dispatch(addPrice(priceValue))
+    }, priceValue)
 
     return (
         <PriceFilterWrapper>
             <div className='form-control'>
                 <p className='input-name'>Ціна</p>
                 <div className="price-wrapper">
-                    <p>Ціна від 0</p>
-                    <p>До 500</p>
+                    <p>Ціна від {priceValue[0]}</p>
+                    <p>До {priceValue[1]}</p>
                 </div>
-                <Slider range className='price-slider' />
+                <Slider
+                    className='price-slider'
+                    range
+                    min={0}
+                    max={maxPrice}
+                    defaultValue={[1, 1000]}
+                    value={priceValue}
+                    onChange={priceValue => setPriceValue(priceValue)}
+                />
             </div>
         </PriceFilterWrapper>
     );
@@ -85,8 +101,8 @@ margin-top: 0;
   cursor: pointer;
 	}
     &-handle:active {
-		border-color: gray !important;
-        box-shadow: 0 0 3px gray;
+  border-color: gray !important;
+  box-shadow: 0 0 3px gray !important;
 	}
 }
 `

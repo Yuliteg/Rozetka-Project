@@ -5,7 +5,8 @@ import MainContainer from "../components/MainContainer";
 
 
 const HomePage = ({goods, isLoading, isError}) => {
-  const { sort, bySeller, byCountry, byBrand } = useSelector(store => store.product);
+  const { sort, bySeller, byCountry, byBrand, price } = useSelector(store => store.product);
+  console.log(price)
 
   const sortProducts = () => {
     let sortedProducts = goods;
@@ -21,13 +22,16 @@ const HomePage = ({goods, isLoading, isError}) => {
     });
    }
    if(bySeller) {
-    sortedProducts = sortedProducts.filter(item => item.seller === bySeller)
+    sortedProducts = sortedProducts.filter(item => item.seller === bySeller);
    }
    if(byCountry) {
-    sortedProducts = sortedProducts.filter(item => item.country === byCountry)
+    sortedProducts = sortedProducts.filter(item => item.country === byCountry);
    }
    if(byBrand) {
-    sortedProducts = sortedProducts.filter(item => item.brand === byBrand)
+    sortedProducts = sortedProducts.filter(item => item.brand === byBrand);
+   }
+   if(price !== []) {
+    sortedProducts = sortedProducts.filter(item => item.price > price[0] && item.price <= price[1]);
    }
 
     return sortedProducts;
