@@ -1,21 +1,36 @@
 import { useSelector, useDispatch } from "react-redux";
-import { filterSeller } from "../store/slices/filtersGoodsSlice";
-import { getUniqueValues } from '../helpersFunction/UniqueValues';
+import { useEffect, useState } from "react";
+import { getUniqueValues } from '../helpersFunction/uniqueValues';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import PriceFilter from './filters/PriceFilter';
 import SellerFilter from './filters/SellerFilter';
 import BrandFilter from './filters/BrandFilter';
+import CountryFilter from './filters/CountryFilter'
 
-const Filter = ({ goods }) => {
+const Filter = ({ goods, maxPrice }) => {
+    const [inputValue, setInputValue] = useState([]);
     const product  = useSelector(store => store.product);
     const dispatch = useDispatch();
 
-    const { bySeller } = product;
+    const { bySeller, byCountry, byBrand } = product;
 
     const seller = getUniqueValues(goods, 'seller');
     const brand = getUniqueValues(goods, 'brand');
     const country = getUniqueValues(goods, 'country');
+
+    const handleChange = (e) => {
+     let input = e.target.value;
+     setInputValue(input.toLowerCase());
+    }
+
+    const filterBrands = () => {
+      let filteredBrand = brand;
+      if(inputValue) {
+        filteredBrand = brand.filter(el => el.toLowerCase().includes(inputValue))
+      }
+      return filteredBrand;
+    }
 
     return (
         <>
@@ -37,12 +52,18 @@ const Filter = ({ goods }) => {
                 <InputGroup className='input-brand-search'>
                     <Form.Control
                         placeholder="Пошук"
-                        className="input-brand-control" />
+                        className="input-brand-control" 
+                        onChange={handleChange}
+                        />
                 </InputGroup>
 
-                {brand.map((item, index) => {
+                {filterBrands().map((item, index) => {
                     return (
-                        <BrandFilter item={item} key={index} />
+                        <BrandFilter 
+                        item={item} 
+                        key={index} 
+                        inputValue={inputValue} 
+                        byBrand={byBrand}/>
                     )
                 })}
             </div>
@@ -51,14 +72,15 @@ const Filter = ({ goods }) => {
                 <p className='input-name'>Країна виробник</p>
                 {country.map((item, index) => {
                     return (
-                        <div key={index} className="column">
-                            <input type="checkbox" name="name" value="value" className='checkbox' />
-                            <label>{item}</label>
-                        </div>
+                        <CountryFilter
+                            item={item}
+                            key={index}
+                            byCountry={byCountry}
+                        />
                     )
                 })}
             </div>
-            <PriceFilter />
+            <PriceFilter maxPrice={maxPrice}/>
         </>
     )
 }

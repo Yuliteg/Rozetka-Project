@@ -1,11 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from 'styled-components';
 import Loading from "../components/Loading";
 import MainContainer from "../components/MainContainer";
 
 
 const HomePage = ({goods, isLoading, isError}) => {
-  const { sort, bySeller } = useSelector(store => store.product);
+  const { sort, bySeller, byCountry, byBrand } = useSelector(store => store.product);
 
   const sortProducts = () => {
     let sortedProducts = goods;
@@ -21,7 +21,13 @@ const HomePage = ({goods, isLoading, isError}) => {
     });
    }
    if(bySeller) {
-    sortedProducts = sortedProducts.filter(item => item.seller == bySeller)
+    sortedProducts = sortedProducts.filter(item => item.seller === bySeller)
+   }
+   if(byCountry) {
+    sortedProducts = sortedProducts.filter(item => item.country === byCountry)
+   }
+   if(byBrand) {
+    sortedProducts = sortedProducts.filter(item => item.brand === byBrand)
    }
 
     return sortedProducts;

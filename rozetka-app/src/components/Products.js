@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import SingleProd from "./SingleProd";
+import { minMaxValue } from '../helpersFunction/maxValue';
 
 
 const Products = ({ goods, sortProducts }) => {

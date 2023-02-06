@@ -1,22 +1,24 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
-const PriceFilter = () => {
+const PriceFilter = ({ maxPrice }) => {
+    const [priceValue, setPriceValue] = useState([0, 50]);
+
+    const handlePrice = (e) => {
+        setPriceValue(e.target.value);
+    }
 
     return (
         <PriceFilterWrapper>
             <div className='form-control'>
                 <p className='input-name'>Ціна</p>
                 <div className="price-wrapper">
-                    <p>Ціна від {10}</p>
-                    <p>До {500}</p>
+                    <p>Ціна від 0</p>
+                    <p>До 500</p>
                 </div>
-                <input
-                    type='range'
-                    name='price'
-                    className='search-input'
-                    min='10'
-                    max='500'
-                />
+                <Slider range className='price-slider' />
             </div>
         </PriceFilterWrapper>
     );
@@ -44,27 +46,47 @@ margin-top: 0;
     }
 
     .price-wrapper {
+        padding-right: 1.5rem;
         display: flex;
         justify-content: space-between;
+
+        @media (max-width: 768px) {
+       flex-direction: column;
+      }
+    }
+    .price-slider {
+        padding-right: 1.5rem;
+        width: 85%;
+    }
+  }
+
+.rc-slider {
+    &-rail {
+  height: 3px;
+  width: 100%; 
+  background-color: #a6a5a5 !important;  
+  border-radius: 3px;  
     }
 
-    input[type='range'] {
-	-webkit-appearance: none;
-    width: 90%;
-	height: 6px;
-	background: grey;
-	border-radius: 5px;
-	background-image: linear-gradient(	#008000, #808000);
-	background-repeat: no-repeat;
+    &-track {
+  height: 3px;
+  border-radius: 6px;
+  background-color: #00a046 !important;   
+    }
+
+    &-handle {
+  width: 15px;
+  height: 15px;
+  border: none;
+  opacity: 1;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  box-shadow: inset 0 0 0 1px #ebebeb;
+  cursor: pointer;
+	}
+    &-handle:active {
+		border-color: gray !important;
+        box-shadow: 0 0 3px gray;
+	}
 }
-    input[type='range']::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	height: 23px;
-	width: 23px;
-	border-radius: 50%;
-	cursor: pointer;
-    background-color: #f5f5f5;
-    box-shadow: inset 0 0 0 2px #ebebeb;
-   }
-  }
 `

@@ -3,17 +3,18 @@ import { addSellerFilter, removeSellerFilter } from "../../store/slices/filtersG
 
 const SellerFilter = ({ item, bySeller }) => {
     const dispatch = useDispatch();
-
-    const handleChange = (e) => {
+    
+      const handleChange = (e) => {
       const name = e.target.name;
       const isChecked = e.target.checked;
-
+     
       if(!isChecked) {
        dispatch(removeSellerFilter(name));
        return;
       }
       dispatch(addSellerFilter(name))
     }
+
 
     return (
         <div className="column">
