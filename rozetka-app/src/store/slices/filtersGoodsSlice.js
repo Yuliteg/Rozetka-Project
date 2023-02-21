@@ -42,6 +42,7 @@ export const filterSlice = createSlice({
   }
 });
 
+
 export const {
   sortByPrice,
   clearFilters,

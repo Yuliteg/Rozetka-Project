@@ -3,11 +3,8 @@ import Sidebar from "../components/Sidebar";
 import Sort from "../components/Sort";
 
 const MainContainer = ({ goods, sortProducts }) => {
-    let newArr = []
-    let allPrice = goods.map((el) => {
-        newArr.push(el.price)
-    })
-    let maxPrice = Math.max(...newArr)
+    let allPrice = goods.map((el) => el.price)
+    let maxPrice = Math.max(...allPrice)
 
     return (
         <>
@@ -17,10 +14,9 @@ const MainContainer = ({ goods, sortProducts }) => {
             <div className="sort-section-container">
                 <Sort goods={goods} />
             </div>
-
             <div className="section-center">
                 <div className="sidebar-container">
-                    <Sidebar goods={goods} maxPrice={maxPrice}/>
+                    <Sidebar goods={goods} maxPrice={maxPrice} />
                 </div>
                 <div className="products-container">
                     <Products goods={goods} sortProducts={sortProducts} />

@@ -15,7 +15,6 @@ const BrandFilter = ({ item, byBrand }) => {
         dispatch(addBrandFilter(name))
     }
 
-
     return (
         <div className="column">
             <input

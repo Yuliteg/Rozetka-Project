@@ -18,6 +18,7 @@ const HomePage = ({goods, isLoading, isError}) => {
           } else if(sort === 'price-rating') {
             return b.rate - a.rate;
           }
+          return sortedProducts;
     });
    }
    if(bySeller) {
