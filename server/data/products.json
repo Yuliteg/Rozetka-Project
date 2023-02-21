@@ -58,5 +58,29 @@
     "country": "Нідерланди",
     "rate": 4,
     "status": "В наявності"
+  },
+  {
+    "id": "6",
+    "category": "Монітор",
+    "name": "Gigabyte M27Q Gaming Monitor",
+    "brand": "Gigabyte",
+    "price": 12999,
+    "img": "https://www.gigabyte.com/FileUpload/Global/KeyFeature/1554/innergigabyteimages//bg1_m.png",
+    "seller": "Rozetka",
+    "country": "Китай",
+    "rate": 5,
+    "status": "В наявності"
+  },
+  {
+    "id": "7",
+    "category": "Монітор",
+    "name": "MSI Optix G24C6",
+    "brand": "MSI",
+    "price": 6799,
+    "img": "https://www.cclonline.com/images/avante/1_Optix-G24C6.jpg?width=1600&height=1600&scale=canvas&trim.threshold=80",
+    "seller": "Rozetka",
+    "country": "Нідерланди",
+    "rate": 4,
+    "status": "В наявності"
   }
 ]

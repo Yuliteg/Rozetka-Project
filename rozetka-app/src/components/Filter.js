@@ -1,17 +1,16 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { getUniqueValues } from '../helpersFunction/uniqueValues';
+import { useSelector } from "react-redux";
+import { useState } from "react";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import PriceFilter from './filters/PriceFilter';
 import SellerFilter from './filters/SellerFilter';
 import BrandFilter from './filters/BrandFilter';
 import CountryFilter from './filters/CountryFilter'
+import { getUniqueValues } from "../helpersFunction/uniqueValues";
 
 const Filter = ({ goods, maxPrice }) => {
     const [inputValue, setInputValue] = useState([]);
     const product  = useSelector(store => store.product);
-    const dispatch = useDispatch();
 
     const { bySeller, byCountry, byBrand } = product;
 

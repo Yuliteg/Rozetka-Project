@@ -6,7 +6,6 @@ import MainContainer from "../components/MainContainer";
 
 const HomePage = ({goods, isLoading, isError}) => {
   const { sort, bySeller, byCountry, byBrand, price } = useSelector(store => store.product);
-  console.log(price)
 
   const sortProducts = () => {
     let sortedProducts = goods;

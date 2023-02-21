@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import SingleProd from "./SingleProd";
-import { minMaxValue } from '../helpersFunction/maxValue';
 
 
 const Products = ({ goods, sortProducts }) => {
-
   return (
     <>
       <Wrapper> 
@@ -25,7 +23,6 @@ export default Products
 const Wrapper = styled.article`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-
 
    .product-container {
    width: 100%;
@@ -96,7 +93,7 @@ const Wrapper = styled.article`
   }
      }
 
-     @media (max-width: 1400px) {
+    @media (max-width: 1400px) {
     grid-template-columns: repeat(3, 1fr);
    }
 
