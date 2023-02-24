@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import SingleProd from "./SingleProd";
 
 
-const Products = ({ goods, sortProducts }) => {
+const Products = ({ goods }) => {
   return (
     <>
       <Wrapper> 
-        {sortProducts().map(el => (
+        {goods.map(el => (
           <SingleProd 
            key={el.id}
            item={el} 

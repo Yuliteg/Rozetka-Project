@@ -1,8 +1,8 @@
 import Select from 'react-select'
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { sortByPrice, clearFilters } from '../store/slices/filtersGoodsSlice';
-
+import { sortByPriceUp, sortByPriceDown, sortByRating } from '../store/slices/goodsSlice';
+import { useEffect, useState } from 'react';
 
 const options = [
   { value: 'price-lowest', label: 'Від дешевих до дорогих' },
@@ -21,24 +21,41 @@ const colorStyles = {
 }
 
 
-const Sort = ({ goods }) => {
-  const { sort } = useSelector(store => store.product);
+const Sort = () => {
+  const [sort, setSort] = useState('');
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    dispatch(sortByPrice(e.value));        
+    setSort(e.value)
   }
+
+  useEffect(() => {
+    switch (sort) {
+      case 'price-lowest':
+        dispatch(sortByPriceUp())
+        setSort(sort)
+        return;
+        case 'price-highests':
+          dispatch(sortByPriceDown())
+          setSort(sort)
+          return;
+          case 'price-rating':
+            dispatch(sortByRating())
+            setSort(sort)
+            return;
+    }
+  }, [sort, dispatch])
 
   return (
     <>
       <Wrapper>
-     <Select
-            styles={colorStyles}
-            defaultValue={options[0]}
-            options={options} 
-            onChange={(e) => handleChange(e)}  
-            > 
-       </Select>        
+        <Select
+          styles={colorStyles}
+          defaultValue={options[0]}
+          options={options}
+          onChange={(e) => handleChange(e)}
+        >
+        </Select>
       </Wrapper>
     </>
   )

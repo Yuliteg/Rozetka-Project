@@ -1,47 +1,53 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components';
 import Loading from "../components/Loading";
 import MainContainer from "../components/MainContainer";
+import { getGoods } from "../helpersFunction/getGoods";
 
+const HomePage = () => {
+  const { goods, isLoading, isError } = useSelector(store => store.product);
+  const dispatch = useDispatch()
 
-const HomePage = ({goods, isLoading, isError}) => {
-  const { sort, bySeller, byCountry, byBrand, price } = useSelector(store => store.product);
+  useEffect(() => {
+    dispatch(getGoods())
+  }, [])
 
-  const sortProducts = () => {
-    let sortedProducts = goods;
-    if (sort) {         
-       sortedProducts = sortedProducts.slice().sort((a,b) => {
-          if(sort === 'price-lowest') {
-            return a.price - b.price;
-          } else if(sort === 'price-highests') {
-            return b.price - a.price;
-          } else if(sort === 'price-rating') {
-            return b.rate - a.rate;
-          }
-          return sortedProducts;
-    });
-   }
-   if(bySeller) {
-    sortedProducts = sortedProducts.filter(item => item.seller === bySeller);
-   }
-   if(byCountry) {
-    sortedProducts = sortedProducts.filter(item => item.country === byCountry);
-   }
-   if(byBrand) {
-    sortedProducts = sortedProducts.filter(item => item.brand === byBrand);
-   }
-   if(price !== []) {
-    sortedProducts = sortedProducts.filter(item => item.price > price[0] && item.price <= price[1]);
-   }
+//   const sortProducts = () => {
+//     let sortedProducts = goods;
+//     if (sort) {         
+//        sortedProducts = sortedProducts.slice().sort((a,b) => {
+//           if(sort === 'price-lowest') {
+//             return a.price - b.price;
+//           } else if(sort === 'price-highests') {
+//             return b.price - a.price;
+//           } else if(sort === 'price-rating') {
+//             return b.rate - a.rate;
+//           }
+//           return sortedProducts;
+//     });
+//    }
+//    if(bySeller) {
+//     sortedProducts = sortedProducts.filter(item => item.seller === bySeller);
+//    }
+//    if(byCountry) {
+//     sortedProducts = sortedProducts.filter(item => item.country === byCountry);
+//    }
+//    if(byBrand) {
+//     sortedProducts = sortedProducts.filter(item => item.brand === byBrand);
+//    }
+//    if(price !== []) {
+//     sortedProducts = sortedProducts.filter(item => item.price > price[0] && item.price <= price[1]);
+//    }
 
-    return sortedProducts;
- }
+//     return sortedProducts;
+//  }
 
   return (
    <Wrapper>
        {isLoading && <Loading />}
        {isError && <h2 style={{color: "red", textAlign: "center"}}>Something went wrong</h2>}
-       {goods && <MainContainer goods={goods} sortProducts={sortProducts}/>}
+       {goods && <MainContainer goods={goods}/>}
     </Wrapper>
   )
 }

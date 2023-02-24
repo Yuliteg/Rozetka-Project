@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { addPrice } from '../../store/slices/filtersGoodsSlice';
+import { addPrice } from '../../store/slices/goodsSlice';
 import { useEffect } from 'react';
 
 const PriceFilter = ({ maxPrice }) => {
@@ -14,9 +14,9 @@ const PriceFilter = ({ maxPrice }) => {
         setPriceValue(e.target.value);
     }
 
-    useEffect(() => {
-        dispatch(addPrice(priceValue))
-    }, priceValue)
+    // useEffect(() => {
+    //     dispatch(addPrice(priceValue))
+    // }, priceValue)
 
     return (
         <PriceFilterWrapper>

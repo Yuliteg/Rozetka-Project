@@ -8,15 +8,16 @@ import BrandFilter from './filters/BrandFilter';
 import CountryFilter from './filters/CountryFilter'
 import { getUniqueValues } from "../helpersFunction/uniqueValues";
 
-const Filter = ({ goods, maxPrice }) => {
+
+const Filter = ({ maxPrice }) => {
     const [inputValue, setInputValue] = useState([]);
     const product  = useSelector(store => store.product);
 
-    const { bySeller, byCountry, byBrand } = product;
+    const { goodsCategory } = product;
 
-    const seller = getUniqueValues(goods, 'seller');
-    const brand = getUniqueValues(goods, 'brand');
-    const country = getUniqueValues(goods, 'country');
+    const seller = getUniqueValues(goodsCategory, 'seller');
+    const brand = getUniqueValues(goodsCategory, 'brand');
+    const country = getUniqueValues(goodsCategory, 'country');
 
     const handleChange = (e) => {
      let input = e.target.value;
@@ -35,15 +36,10 @@ const Filter = ({ goods, maxPrice }) => {
         <>
             <div className="seller-container checkbox-group">
                 <p className='input-name'>Продавець</p>
-                {seller.map((item, index) => {
-                    return (
-                        <SellerFilter
-                            item={item}
-                            key={index}
-                            bySeller={bySeller}
-                        />
-                    )
-                })}
+                < SellerFilter 
+                 seller={seller}
+                 goodsCategory={goodsCategory}
+                />
             </div>
 
             <div className="brand-container checkbox-group">
@@ -62,7 +58,7 @@ const Filter = ({ goods, maxPrice }) => {
                         item={item} 
                         key={index} 
                         inputValue={inputValue} 
-                        byBrand={byBrand}/>
+                        />
                     )
                 })}
             </div>
@@ -74,7 +70,6 @@ const Filter = ({ goods, maxPrice }) => {
                         <CountryFilter
                             item={item}
                             key={index}
-                            byCountry={byCountry}
                         />
                     )
                 })}

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addCountryFilter, removeCountryFilter } from "../../store/slices/filtersGoodsSlice";
+import { addCountryFilter, removeCountryFilter } from "../../store/slices/goodsSlice";
 
 const CountryFilter = ({ item, byCountry }) => {
     const dispatch = useDispatch();

@@ -1,33 +1,44 @@
 import { useDispatch } from "react-redux";
-import { addSellerFilter, removeSellerFilter } from "../../store/slices/filtersGoodsSlice";
+import { addSellerFilter, removeSellerFilter } from "../../store/slices/goodsSlice";
+import { useEffect, useState } from "react";
 
-const SellerFilter = ({ item, bySeller }) => {
+const SellerFilter = ({ seller, goodsCategory }) => {
+    const [chechedValues, setCheckedValues] = useState([])
     const dispatch = useDispatch();
 
-      const handleChange = (e) => {
-      const name = e.target.name;
-      const isChecked = e.target.checked;
-     
-      if(!isChecked) {
-       dispatch(removeSellerFilter(name));
-       return;
-      }
-      dispatch(addSellerFilter(name))
+    const handleChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setCheckedValues([...chechedValues, value])
+        } else {
+            setCheckedValues(chechedValues.filter(e => e !== value))
+        }
     }
 
+    useEffect(() => {
+        if(chechedValues.length) {
+            dispatch(addSellerFilter(chechedValues))
+        } else {
+            dispatch(removeSellerFilter(goodsCategory))
+        }
+    }, [chechedValues])
 
     return (
-        <div className="column">
-            <input
-                className='checkbox'
-                type="checkbox"
-                name={item} 
-                onChange={handleChange}
-                checked={bySeller === item}
-                />
-                
-            <label>{item}</label>
-        </div>
+        <>
+            {seller.map((item, index) => {
+                return (
+                    <div className="column" key={index}>
+                        <input
+                            className='checkbox'
+                            type="checkbox"
+                            value={item}
+                            onChange={handleChange}
+                        />
+                        <label>{item}</label>
+                    </div>
+                )
+            })}
+        </>
     )
 }
 
