@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addSellerFilter, removeSellerFilter, removeCountryFilter, addCountryFilter } from "../../store/slices/goodsSlice";
+import { addSellerFilter, removeSellerFilter, removeCountryFilter, addCountryFilter, sortByPriceUp } from "../../store/slices/goodsSlice";
 import { useEffect, useState } from "react";
 
 const CheckBox = ({ category, goodsCategory, filterBySeller, filterByCountry }) => {
