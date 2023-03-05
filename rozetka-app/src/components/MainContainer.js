@@ -1,8 +1,11 @@
+import { useState } from "react";
 import Products from "../components/Products";
 import Sidebar from "../components/Sidebar";
 import Sort from "../components/Sort";
 
 const MainContainer = ({ goods }) => {
+    const [sellerState, setSellerState] = useState([])
+    const [countryState, setCountryState] = useState([])
     let allPrice = goods.map((el) => el.price)
     let maxPrice = Math.max(...allPrice)
 
@@ -16,7 +19,10 @@ const MainContainer = ({ goods }) => {
             </div>
             <div className="section-center">
                 <div className="sidebar-container">
-                    <Sidebar goods={goods} maxPrice={maxPrice} />
+                    <Sidebar
+                        goods={goods}
+                        maxPrice={maxPrice}
+                    />
                 </div>
                 <div className="products-container">
                     <Products goods={goods} />

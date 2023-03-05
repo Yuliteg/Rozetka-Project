@@ -4,6 +4,8 @@ import { getGoods } from '../../helpersFunction/getGoods';
 const initialState = {
   isError: false,
   isLoading: false,
+  bySeller: [],
+  byCountry: [],
   error: '',
   goods: [],
   goodsFiltered: [],
@@ -16,30 +18,60 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     sortByPriceUp: (state) => {
-      state.goods = [...state.goodsFiltered.sort(
+      state.goods = [...state.goods.sort(
         (curr, next) => curr.price - next.price
       ),
-      ]  
+      ]
     },
     sortByPriceDown: (state) => {
-      state.goods = [...state.goodsFiltered.sort(
+      state.goods = [...state.goods.sort(
         (curr, next) => next.price - curr.price
       ),
-      ]  
+      ]
     },
     sortByRating: (state) => {
-      state.goods = [...state.goodsFiltered.sort(
+      state.goods = [...state.goods.sort(
         (curr, next) => next.rate - curr.rate
       ),
-      ]  
+      ]
     },
-    addSellerFilter: (state, {payload}) => {
+    addSellerFilter: (state, { payload }) => {
       state.bySeller = payload
-      state.goods = [...state.goodsFiltered.filter(
-        (el) => payload.includes(el.seller))]
+      if (!state.byCountry) {
+        state.goods = [...state.goodsFiltered.filter(
+          (el) => payload.includes(el.seller))]
+      } else {
+        state.goods = [...state.goodsFiltered.filter(
+          (el) => payload.includes(el.seller) && state.byCountry.includes(el.country))]
+      }
     },
-    removeSellerFilter: (state, {payload}) => {
-       state.goods = payload
+    removeSellerFilter: (state, { payload }) => {
+      state.bySeller = ''
+      if (!state.byCountry) {
+        state.goods = payload
+      } else {
+        state.goods = payload.filter(
+          (el) => state.byCountry.includes(el.country))
+      }
+    },
+    addCountryFilter: (state, { payload }) => {
+      state.byCountry = payload
+      if (!state.bySeller) {
+        state.goods = [...state.goodsFiltered.filter(
+          (el) => payload.includes(el.country))]
+      } else {
+        state.goods = [...state.goodsFiltered.filter(
+          (el) => payload.includes(el.country) && state.bySeller.includes(el.seller))]
+      }
+    },
+    removeCountryFilter: (state, { payload }) => {
+      state.byCountry = ''
+      if (!state.bySeller) {
+        state.goods = payload
+      } else {
+        state.goods = payload.filter(
+          (el) => state.bySeller.includes(el.seller))
+      }
     },
   },
   extraReducers: {
@@ -73,5 +105,7 @@ export const {
   removeCountryFilter,
   addBrandFilter,
   removeBrandFilter,
-  addPrice } = filterSlice.actions;
+  addPrice,
+  bySeller,
+  byCountry } = filterSlice.actions;
 export default filterSlice.reducer;
