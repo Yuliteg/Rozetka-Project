@@ -3,20 +3,26 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { addPrice } from '../../store/slices/goodsSlice';
+import { addPriceFilter } from '../../store/slices/goodsSlice';
 import { useEffect } from 'react';
 
-const PriceFilter = ({ maxPrice }) => {
+const PriceFilter = ({ min, max }) => {
     const dispatch = useDispatch();
-    const [priceValue, setPriceValue] = useState([0, maxPrice]);
+
+    const [priceValue, setPriceValue] = useState([0, max]);
+    useEffect(() => {
+      if(max > 0) {
+        setPriceValue([0, max])
+      }
+    }, [max])
 
     const handlePrice = (e) => {
-        setPriceValue(e.target.value);
-    }
-
-    // useEffect(() => {
-    //     dispatch(addPrice(priceValue))
-    // }, priceValue)
+      console.log(e);
+      setPriceValue(e)
+  }
+    useEffect(() => {
+     dispatch(addPriceFilter(priceValue))
+    }, [priceValue])
 
     return (
         <PriceFilterWrapper>
@@ -30,10 +36,10 @@ const PriceFilter = ({ maxPrice }) => {
                     className='price-slider'
                     range
                     min={0}
-                    max={maxPrice}
+                    max={max}
                     defaultValue={[1, 1000]}
                     value={priceValue}
-                    onChange={priceValue => setPriceValue(priceValue)}
+                    onChange={handlePrice}
                 />
             </div>
         </PriceFilterWrapper>

@@ -1,64 +1,59 @@
-import { useDispatch } from "react-redux";
-import { addSellerFilter, removeSellerFilter, removeCountryFilter, addCountryFilter, sortByPriceUp } from "../../store/slices/goodsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addFilter, removeFilter } from "../../store/slices/goodsSlice";
 import { useEffect, useState } from "react";
+import { getUniqueValues } from "../../helpersFunction/uniqueValues";
 
-const CheckBox = ({ category, goodsCategory, filterBySeller, filterByCountry }) => {
-    const [sellerState, setSellerState] = useState([])
-    const [countryState, setCountryState] = useState([])
+const CheckBox = ({ goods, category, filterType }) => {
+    const [filterOptions, setFilterOptions] = useState([])
+    const [inputValue, setInputValue] = useState("");
+
     const dispatch = useDispatch();
-
-    const handleChange = (e) => {
-        if (filterBySeller) {
-            const { value, checked } = e.target;
-            if (!checked) {
-                setSellerState(sellerState.filter((e) => e !== value))
-                return;
-            }
-            setSellerState([...sellerState, value])
-        } else if (filterByCountry) {
-            const { value, checked } = e.target;
-            if (!checked) {
-                setCountryState(countryState.filter((e) => e !== value))
-                return;
-            }
-            setCountryState([...countryState, value])
-        }
-    }
+    const filteredGoods = useSelector((state) => state.product.filteredGoods)
 
     useEffect(() => {
-        if (filterBySeller) {
-            if (sellerState.length) {
-                dispatch(addSellerFilter(sellerState))
-            } else {
-                dispatch(removeSellerFilter(goodsCategory));
-            }
-        } else if (filterByCountry) {
-            if (countryState.length) {
-                dispatch(addCountryFilter(countryState))
-            } else {
-                dispatch(removeCountryFilter(goodsCategory));
-            }
+        if (goods || Array.isArray(goods)) {
+            setFilterOptions(getUniqueValues(goods, filterType))
         }
-    }, [sellerState, countryState])
+    }, [goods])
+
+    const activeFilters = useSelector((state) => state.product.filters[filterType]);
+
+    const handleChange = (e) => {
+        const { value, checked } = e.target;
+        console.log(checked);
+        if (checked) {
+            dispatch(addFilter({ filterType, value }));
+        } else {
+            dispatch(removeFilter({ filterType, value }));
+        }
+    };
+
+    // const handleInput = (e) => {
+    //     setInputValue(e.target.value.toLowerCase());
+    // };
+    // const filterCategories = () => {
+    //     if (inputValue) {
+    //         return category.filter((el) => el.toLowerCase().includes(inputValue));
+    //     }
+    //     return category;
+    // };
 
     return (
         <>
-            {category.map((item, index) => {
-                return (
-                    <div className="column" key={index}>
-                        <input
-                            className='checkbox'
-                            type="checkbox"
-                            value={item}
-                            onChange={handleChange}
-                        />
-                        <label>{item}</label>
-                    </div>
-                )
-            })}
+            {filterOptions && filterOptions.map((item, index) => (
+                <div className="column" key={index}>
+                    <input
+                        className='checkbox'
+                        type="checkbox"
+                        value={item}
+                        onChange={handleChange}
+                        checked={activeFilters.includes(item)}
+                    />
+                    <label>{item}</label>
+                </div>
+            ))}
         </>
     )
 }
-
 
 export default CheckBox;

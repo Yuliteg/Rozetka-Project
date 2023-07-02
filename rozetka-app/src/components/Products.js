@@ -1,29 +1,25 @@
 import styled from 'styled-components';
 import SingleProd from "./SingleProd";
+import { useSelector } from 'react-redux';
 
 
-const Products = ({ goods }) => {
+const Products = () => {
+  const filteredGoods = useSelector((state) => state.product.filteredGoods);
+
   return (
-    <>
-      <Wrapper> 
-        {goods.map(el => (
-          <SingleProd 
-           key={el.id}
-           item={el} 
-          />
-        ))}
-      </Wrapper>
-    </>
-  )
-}
+    <Wrapper>
+      {filteredGoods.map((el) => (
+        <SingleProd key={el.id} item={el} />
+      ))}
+    </Wrapper>
+  );
+};
 
-
-export default Products
+export default Products;
 
 const Wrapper = styled.article`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-
 
    .product-container {
    width: 100%;
@@ -40,7 +36,7 @@ const Wrapper = styled.article`
   object-fit: contain;
     }
 
-  header {
+    header {
   margin: 0.5rem 0 0.5rem 0;
   align-items: center;
 
@@ -94,14 +90,14 @@ const Wrapper = styled.article`
   }
      }
 
-    @media (max-width: 1400px) {
+   @media (max-width: 1400px) {
     grid-template-columns: repeat(3, 1fr);
    }
 
    @media (max-width: 1000px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: 600px) {
+   @media (max-width: 600px) {
     grid-template-columns: repeat(1, 1fr);
   }
 `

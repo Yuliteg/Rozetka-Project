@@ -4,74 +4,66 @@ import { getGoods } from '../../helpersFunction/getGoods';
 const initialState = {
   isError: false,
   isLoading: false,
-  bySeller: [],
-  byCountry: [],
   error: '',
   goods: [],
-  goodsFiltered: [],
-  goodsCategory: [],
-  price: [],
+  filteredGoods: [],
+  filters: {
+    seller: [],
+    country: [],
+    brand: [],
+  },
+  sort: '',
 }
 
 export const filterSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
+    setSortOption: (state, { payload }) => {
+      state.sort = payload;
+    },
     sortByPriceUp: (state) => {
-      state.goods = [...state.goods.sort(
-        (curr, next) => curr.price - next.price
-      ),
-      ]
+      state.filteredGoods = [...state.filteredGoods.sort((curr, next) => curr.price - next.price)];
     },
     sortByPriceDown: (state) => {
-      state.goods = [...state.goods.sort(
-        (curr, next) => next.price - curr.price
-      ),
-      ]
+      state.filteredGoods = [...state.filteredGoods.sort((curr, next) => next.price - curr.price)];
     },
     sortByRating: (state) => {
-      state.goods = [...state.goods.sort(
-        (curr, next) => next.rate - curr.rate
-      ),
-      ]
+      state.filteredGoods = [...state.filteredGoods.sort((curr, next) => next.rate - curr.rate)];
     },
-    addSellerFilter: (state, { payload }) => {
-      state.bySeller = payload
-      if (!state.byCountry) {
-        state.goods = [...state.goodsFiltered.filter(
-          (el) => payload.includes(el.seller))]
-      } else {
-        state.goods = [...state.goodsFiltered.filter(
-          (el) => payload.includes(el.seller) && state.byCountry.includes(el.country))]
-      }
+
+    addFilter: (state, { payload }) => {
+      const filteredGoodsCopy = [...state.goods];
+      const { filterType, value } = payload;
+
+      state.filters[filterType] = [...state.filters[filterType], value];
+      state.filteredGoods = filteredGoodsCopy.filter((item) => {
+        return state.filters[filterType].includes(item[filterType]);
+      });
     },
-    removeSellerFilter: (state, { payload }) => {
-      state.bySeller = ''
-      if (!state.byCountry) {
-        state.goods = payload
-      } else {
-        state.goods = payload.filter(
-          (el) => state.byCountry.includes(el.country))
-      }
+    removeFilter: (state, { payload }) => {
+      const filteredGoodsCopy = [...state.goods];
+      const { filterType, value } = payload;
+
+      state.filters[filterType] = state.filters[filterType].filter((el) => el !== value);
+
+      const activeFilters = state.filters;
+
+      state.filteredGoods = filteredGoodsCopy.filter((item) => {
+        for (const filterType in activeFilters) {
+          if (activeFilters[filterType].length > 0 && !activeFilters[filterType].includes(item[filterType])) {
+            return false;
+          }
+        }
+        return true;
+      });
     },
-    addCountryFilter: (state, { payload }) => {
-      state.byCountry = payload
-      if (!state.bySeller) {
-        state.goods = [...state.goodsFiltered.filter(
-          (el) => payload.includes(el.country))]
-      } else {
-        state.goods = [...state.goodsFiltered.filter(
-          (el) => payload.includes(el.country) && state.bySeller.includes(el.seller))]
-      }
-    },
-    removeCountryFilter: (state, { payload }) => {
-      state.byCountry = ''
-      if (!state.bySeller) {
-        state.goods = payload
-      } else {
-        state.goods = payload.filter(
-          (el) => state.bySeller.includes(el.seller))
-      }
+    clearFilters: (state) => {
+      state.filters = {
+        seller: [],
+        country: [],
+        brand: [],
+      };
     },
   },
   extraReducers: {
@@ -81,8 +73,7 @@ export const filterSlice = createSlice({
     [getGoods.fulfilled]: (state, { payload }) => {
       state.isLoading = false
       state.goods = payload
-      state.goodsCategory = payload
-      state.goodsFiltered = payload
+      state.filteredGoods = payload;
     },
     [getGoods.rejected]: (state, action) => {
       state.isLoading = false
@@ -92,20 +83,17 @@ export const filterSlice = createSlice({
   },
 });
 
-
 export const {
   goods,
   sortByPriceUp,
   sortByPriceDown,
   sortByRating,
+  setSortOption,
+  addFilter,
+  filteredGoods,
   clearFilters,
-  addSellerFilter,
-  removeSellerFilter,
-  addCountryFilter,
-  removeCountryFilter,
-  addBrandFilter,
-  removeBrandFilter,
-  addPrice,
-  bySeller,
-  byCountry } = filterSlice.actions;
+  removeFilter,
+  addPriceFilter
+} = filterSlice.actions;
+
 export default filterSlice.reducer;

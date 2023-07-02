@@ -1,18 +1,15 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Products from "../components/Products";
 import Sidebar from "../components/Sidebar";
 import Sort from "../components/Sort";
 
-const MainContainer = ({ goods }) => {
-    const [sellerState, setSellerState] = useState([])
-    const [countryState, setCountryState] = useState([])
-    let allPrice = goods.map((el) => el.price)
-    let maxPrice = Math.max(...allPrice)
-
+const MainContainer = () => {
     const product = useSelector(store => store.product);
-
-    const { bySeller, byCountry } = product;
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(0);
+    const { bySeller, byCountry, goods } = product;
 
     return (
         <>
@@ -20,13 +17,16 @@ const MainContainer = ({ goods }) => {
                 <p>Монітори</p>
             </div>
             <div className="sort-section-container">
-                <Sort bySeller={bySeller} byCountry={byCountry}/>
+                <Sort
+                    bySeller={bySeller}
+                    byCountry={byCountry} />
             </div>
             <div className="section-center">
                 <div className="sidebar-container">
                     <Sidebar
                         goods={goods}
-                        maxPrice={maxPrice}
+                        min={min}
+                        max={max}
                     />
                 </div>
                 <div className="products-container">

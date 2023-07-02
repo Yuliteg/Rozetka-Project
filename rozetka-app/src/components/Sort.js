@@ -1,7 +1,7 @@
 import Select from 'react-select'
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { sortByPriceUp, sortByPriceDown, sortByRating } from '../store/slices/goodsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { sortByPriceUp, sortByPriceDown, sortByRating, setSortOption } from '../store/slices/goodsSlice';
 import { useEffect, useState } from 'react';
 
 const options = [
@@ -21,30 +21,32 @@ const colorStyles = {
 }
 
 
-const Sort = ({bySeller, byCountry}) => {
-  const [sort, setSort] = useState('');
+const Sort = ({ bySeller, byCountry }) => {
   const dispatch = useDispatch();
+  const filteredGoods = useSelector((state) => state.product.filteredGoods);
+  const sort = useSelector((state) => state.product.sort);
 
   const handleChange = (e) => {
-    setSort(e.value)
-  }
+    const sortOption = e.value;
+    console.log(sortOption);
+    dispatch(setSortOption(sortOption));
+  };
 
   useEffect(() => {
     switch (sort) {
       case 'price-lowest':
-        dispatch(sortByPriceUp())
-        setSort(sort)
+        dispatch(sortByPriceUp());
         return;
-        case 'price-highests':
-          dispatch(sortByPriceDown())
-          setSort(sort)
-          return;
-          case 'price-rating':
-            dispatch(sortByRating())
-            setSort(sort)
-            return;
+      case 'price-highests':
+        dispatch(sortByPriceDown());
+        return;
+      case 'price-rating':
+        dispatch(sortByRating());
+        return;
+      default:
+        return;
     }
-  }, [sort, dispatch, bySeller, byCountry])
+  }, [sort, dispatch]);
 
   return (
     <>
@@ -54,15 +56,14 @@ const Sort = ({bySeller, byCountry}) => {
           defaultValue={options[0]}
           options={options}
           onChange={(e) => handleChange(e)}
-        >
-        </Select>
+        />
       </Wrapper>
     </>
-  )
-}
+  );
+};
 
+export default Sort;
 
-export default Sort
 
 const Wrapper = styled.div`
    margin-right: 3.5rem;

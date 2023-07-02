@@ -7,7 +7,6 @@ import { TiShoppingCart } from "react-icons/ti";
 import { FaUserAlt } from "react-icons/fa";
 
 
-
 const Navbar = () => {
   return (
     <>
