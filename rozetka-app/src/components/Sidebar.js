@@ -2,15 +2,13 @@ import styled from 'styled-components';
 import Filter from './Filter';
 import PriceFilter from './filters/PriceFilter';
 
-const Sidebar = ({ goods, min, max }) => {
+const Sidebar = ({ goods }) => {
   return (
     <>
       <Wrapper>
         <div className='input'>
           <Filter
-            goods={goods}
-            min={min}
-            max={max} />
+            goods={goods} />
         </div>
       </Wrapper>
     </>
