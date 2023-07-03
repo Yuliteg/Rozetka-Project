@@ -20,7 +20,7 @@ const CheckBox = ({ goods, category, filterType }) => {
 
     const handleChange = (e) => {
         const { value, checked } = e.target;
-        console.log(checked);
+
         if (checked) {
             dispatch(addFilter({ filterType, value }));
         } else {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getGoods } from '../../helpersFunction/getGoods';
+import { fetchGoods } from '../../helpersFunction/getGoods';
 
 const initialState = {
   isError: false,
@@ -37,8 +37,16 @@ export const filterSlice = createSlice({
       const { filterType, value } = payload;
 
       state.filters[filterType] = [...state.filters[filterType], value];
+
+      const activeFilters = state.filters;
+
       state.filteredGoods = filteredGoodsCopy.filter((item) => {
-        return state.filters[filterType].includes(item[filterType]);
+        for (const filterType in activeFilters) {
+          if (activeFilters[filterType].length > 0 && !activeFilters[filterType].includes(item[filterType])) {
+            return false;
+          }
+        }
+        return true;
       });
     },
     removeFilter: (state, { payload }) => {
@@ -67,15 +75,15 @@ export const filterSlice = createSlice({
     },
   },
   extraReducers: {
-    [getGoods.pending]: (state) => {
+    [fetchGoods.pending]: (state) => {
       state.isLoading = true
     },
-    [getGoods.fulfilled]: (state, { payload }) => {
+    [fetchGoods.fulfilled]: (state, { payload }) => {
       state.isLoading = false
       state.goods = payload
       state.filteredGoods = payload;
     },
-    [getGoods.rejected]: (state, action) => {
+    [fetchGoods.rejected]: (state, action) => {
       state.isLoading = false
       state.isError = true
       state.error = action.error.message;

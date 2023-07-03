@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import PriceFilter from './filters/PriceFilter';
-import CheckBox from './filters/Checkbox';
+import Checkbox from './filters/Checkbox';
 import { getUniqueValues } from "../helpersFunction/uniqueValues";
 
 
@@ -13,7 +13,7 @@ const Filter = ({ goods, min, max }) => {
         <>
             <div className="seller-container checkbox-group">
                 <p className='input-name'>Продавець</p>
-                < CheckBox
+                < Checkbox
                     filterType="seller"
                     goods={product.goods}
                 />
@@ -31,7 +31,7 @@ const Filter = ({ goods, min, max }) => {
 
             <div className="country-container checkbox-group">
                 <p className='input-name'>Країна виробник</p>
-                < CheckBox
+                < Checkbox
                     filterType="country"
                     goods={product.goods}
                 />

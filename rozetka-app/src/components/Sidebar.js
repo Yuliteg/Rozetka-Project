@@ -18,11 +18,14 @@ const Sidebar = ({ goods }) => {
 export default Sidebar;
 
 const Wrapper = styled.div`
+  padding-left: 1rem;
+  
   .input {
+  word-break: break-all;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   gap: 2rem;
   
   .input-name {
