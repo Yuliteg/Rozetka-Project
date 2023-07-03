@@ -11,13 +11,13 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchGoods())
-  }, [])
+  }, [dispatch])
 
   return (
     <Wrapper>
       {isLoading && <Loading />}
       {isError && <h2 style={{ color: "red", textAlign: "center" }}>Something went wrong</h2>}
-      {goods && <MainContainer goods={goods} />}
+      {goods && <MainContainer />}
     </Wrapper>
   )
 }
@@ -29,7 +29,6 @@ const Wrapper = styled.div`
    display: flex;
    flex-direction: column;
    gap: 1.3rem;
-   /* margin-left: 2rem; */
    margin-right: 2rem;
    margin-top: 2.5rem;
    margin-bottom: 2rem;

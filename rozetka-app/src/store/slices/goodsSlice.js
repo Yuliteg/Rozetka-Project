@@ -66,13 +66,6 @@ export const filterSlice = createSlice({
         return true;
       });
     },
-    clearFilters: (state) => {
-      state.filters = {
-        seller: [],
-        country: [],
-        brand: [],
-      };
-    },
   },
   extraReducers: {
     [fetchGoods.pending]: (state) => {
@@ -99,7 +92,6 @@ export const {
   setSortOption,
   addFilter,
   filteredGoods,
-  clearFilters,
   removeFilter,
   addPriceFilter
 } = filterSlice.actions;

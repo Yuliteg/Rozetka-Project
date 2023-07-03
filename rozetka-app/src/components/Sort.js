@@ -2,7 +2,7 @@ import Select from 'react-select'
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { sortByPriceUp, sortByPriceDown, sortByRating, setSortOption } from '../store/slices/goodsSlice';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const options = [
   { value: 'price-lowest', label: 'Від дешевих до дорогих' },
@@ -21,14 +21,12 @@ const colorStyles = {
 }
 
 
-const Sort = ({ bySeller, byCountry }) => {
+const Sort = () => {
   const dispatch = useDispatch();
-  const filteredGoods = useSelector((state) => state.product.filteredGoods);
   const sort = useSelector((state) => state.product.sort);
 
   const handleChange = (e) => {
     const sortOption = e.value;
-    console.log(sortOption);
     dispatch(setSortOption(sortOption));
   };
 

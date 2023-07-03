@@ -17,6 +17,7 @@ const Products = () => {
 
 export default Products;
 
+
 const Wrapper = styled.article`
   display: grid;
   grid-template-columns: repeat(4, 1fr);

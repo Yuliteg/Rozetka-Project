@@ -2,10 +2,9 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import PriceFilter from './filters/PriceFilter';
 import Checkbox from './filters/Checkbox';
-import { getUniqueValues } from "../helpersFunction/uniqueValues";
 
 
-const Filter = ({ goods, min, max }) => {
+const Filter = () => {
     const [inputValue, setInputValue] = useState([]);
     const product = useSelector(store => store.product);
 
@@ -19,15 +18,13 @@ const Filter = ({ goods, min, max }) => {
                 />
             </div>
 
-            {/* <div className="brand-container checkbox-group">
+            <div className="brand-container checkbox-group">
                 <p className='input-name'>Бренд</p>
-                < CheckBox
-                    category={brand}
-                    goodsCategory={goodsCategory}
-                    filterByBrand
-                    checkboxWithInput
+                < Checkbox
+                    filterType="brand"
+                    goods={product.goods}
                 />
-            </div> */}
+            </div>
 
             <div className="country-container checkbox-group">
                 <p className='input-name'>Країна виробник</p>
