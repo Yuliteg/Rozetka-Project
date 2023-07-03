@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchGoods } from '../../helpersFunction/getGoods';
+import { fetchGoods } from '../../helpersFunction/getProd';
 
 const initialState = {
   isError: false,
@@ -13,7 +13,27 @@ const initialState = {
     brand: [],
   },
   sort: '',
+  priceFilter: [0, 21999],
 }
+
+const filterGoodsByPriceAndCheckbox = (state) => {
+  const { filters, goods, priceFilter } = state;
+
+  return goods.filter((item) => {
+    const isPriceInRange = item.price >= priceFilter[0] && item.price <= priceFilter[1];
+
+    const isActiveCheckboxFilter = (item) => {
+      for (const filterType in filters) {
+        if (filters[filterType].length > 0 && !filters[filterType].includes(item[filterType])) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    return isPriceInRange && isActiveCheckboxFilter(item);
+  });
+};
 
 export const filterSlice = createSlice({
   name: 'product',
@@ -31,8 +51,16 @@ export const filterSlice = createSlice({
     sortByRating: (state) => {
       state.filteredGoods = [...state.filteredGoods.sort((curr, next) => next.rate - curr.rate)];
     },
+    withoutSorting: (state) => {
+      state.filteredGoods = [...state.goods];
+    },
 
-    addFilter: (state, { payload }) => {
+    addPriceFilter: (state, { payload }) => {
+      state.priceFilter = payload;
+      state.filteredGoods = filterGoodsByPriceAndCheckbox(state);
+    },
+
+    addCheckboxFilter: (state, { payload }) => {
       const filteredGoodsCopy = [...state.goods];
       const { filterType, value } = payload;
 
@@ -49,7 +77,7 @@ export const filterSlice = createSlice({
         return true;
       });
     },
-    removeFilter: (state, { payload }) => {
+    removeCheckboxFilter: (state, { payload }) => {
       const filteredGoodsCopy = [...state.goods];
       const { filterType, value } = payload;
 
@@ -65,6 +93,12 @@ export const filterSlice = createSlice({
         }
         return true;
       });
+
+      const noActiveFilters = Object.values(activeFilters).every((filterArr) => filterArr.length === 0);
+      if (noActiveFilters) {
+        state.sort = 'without-sorting';
+        state.filteredGoods = [...state.goods];
+      }
     },
   },
   extraReducers: {
@@ -86,13 +120,14 @@ export const filterSlice = createSlice({
 
 export const {
   goods,
+  withoutSorting,
   sortByPriceUp,
   sortByPriceDown,
   sortByRating,
   setSortOption,
-  addFilter,
   filteredGoods,
-  removeFilter,
+  addCheckboxFilter,
+  removeCheckboxFilter,
   addPriceFilter
 } = filterSlice.actions;
 

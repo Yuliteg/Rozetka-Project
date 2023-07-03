@@ -19,14 +19,18 @@ export default Sidebar;
 
 const Wrapper = styled.div`
   padding-left: 1rem;
-  
+
   .input {
-  word-break: break-all;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 1.5rem;
   gap: 2rem;
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
   
   .input-name {
     color: #3e77aa;
@@ -36,7 +40,7 @@ const Wrapper = styled.div`
    }
   }
   .checkbox {
-    margin-right: 0.5rem;
+    margin-right: 0.3rem;
    }
   }
 

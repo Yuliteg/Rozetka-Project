@@ -1,16 +1,15 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import PriceFilter from './filters/PriceFilter';
+// import PriceFilter from './filters/PriceFilter';
 import Checkbox from './filters/Checkbox';
+import PriceFilter from "./filters/PriceFilter";
 
 
 const Filter = () => {
-    const [inputValue, setInputValue] = useState([]);
     const product = useSelector(store => store.product);
 
     return (
         <>
-            <div className="seller-container checkbox-group">
+            <div className="checkbox-group">
                 <p className='input-name'>Продавець</p>
                 < Checkbox
                     filterType="seller"
@@ -18,21 +17,24 @@ const Filter = () => {
                 />
             </div>
 
-            <div className="brand-container checkbox-group">
+            <div className="checkbox-group">
                 <p className='input-name'>Бренд</p>
                 < Checkbox
                     filterType="brand"
                     goods={product.goods}
+                    checkboxWithInput
                 />
             </div>
 
-            <div className="country-container checkbox-group">
+            <div className="checkbox-group">
                 <p className='input-name'>Країна виробник</p>
                 < Checkbox
                     filterType="country"
                     goods={product.goods}
                 />
             </div>
+
+            <PriceFilter />
         </>
     )
 }

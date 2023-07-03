@@ -1,10 +1,11 @@
 import Select from 'react-select'
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { sortByPriceUp, sortByPriceDown, sortByRating, setSortOption } from '../store/slices/goodsSlice';
+import { sortByPriceUp, sortByPriceDown, sortByRating, setSortOption, withoutSorting } from '../store/slices/goodsSlice';
 import { useEffect } from 'react';
 
 const options = [
+  { value: 'without-sorting', label: 'Без сортування' },
   { value: 'price-lowest', label: 'Від дешевих до дорогих' },
   { value: 'price-highests', label: 'Від дорогих до дешевих' },
   { value: 'price-rating', label: 'За рейтингом' }
@@ -41,17 +42,23 @@ const Sort = () => {
       case 'price-rating':
         dispatch(sortByRating());
         return;
+      case 'without-sorting':
+        dispatch(withoutSorting());
+        return;
       default:
         return;
     }
   }, [sort, dispatch]);
 
+  const selectedOption = options.find(option => option.value === sort);
+
   return (
     <>
       <Wrapper>
         <Select
-          styles={colorStyles}
           defaultValue={options[0]}
+          styles={colorStyles}
+          value={selectedOption}
           options={options}
           onChange={(e) => handleChange(e)}
         />
@@ -64,9 +71,9 @@ export default Sort;
 
 
 const Wrapper = styled.div`
-   margin-right: 3.5rem;
-   float: right;
-   width: 15%;
+    margin-right: 3.5rem;
+    float: right;
+    width: 15%;
 
    .sort-input {
     border-color: transparent;
@@ -75,7 +82,7 @@ const Wrapper = styled.div`
     padding: 0.5rem;
   }
   
-  label {
+    label {
     padding-right: 3%;
     font-size: 1rem;
     text-transform: capitalize;

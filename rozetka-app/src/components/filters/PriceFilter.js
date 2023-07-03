@@ -1,61 +1,59 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Slider, { Range } from 'rc-slider';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { addPriceFilter } from '../../store/slices/goodsSlice';
-import { useEffect } from 'react';
 
-const PriceFilter = ({ min, max }) => {
-    const dispatch = useDispatch();
 
-    const [priceValue, setPriceValue] = useState([0, max]);
-    useEffect(() => {
-      if(max > 0) {
-        setPriceValue([0, max])
-      }
-    }, [max])
+const PriceFilter = () => {
+  const dispatch = useDispatch();
+  const goods = useSelector((state) => state.product.goods);
+  const priceFilter = useSelector((state) => state.product.priceFilter);
+  const [sliderValue, setSliderValue] = useState(priceFilter); // Separate state for slider value
+  const [minPrice, setMinPrice] = useState(priceFilter[0])
+  const [maxPrice, setMaxPrice] = useState(priceFilter[1])
 
-    const handlePrice = (e) => {
-      console.log(e);
-      setPriceValue(e)
-  }
-    useEffect(() => {
-     dispatch(addPriceFilter(priceValue))
-    }, [priceValue])
+  useEffect(() => {
+    const prices = goods.map((item) => item.price);
+    setMinPrice(Math.min(...prices))
+    setMaxPrice(Math.max(...prices))
+    setSliderValue([minPrice, maxPrice]); // Set slider value separately from priceFilter
+  }, [goods]);
 
-    return (
-        <PriceFilterWrapper>
-            <div className='form-control'>
-                <p className='input-name'>Ціна</p>
-                <div className="price-wrapper">
-                    <p>Ціна від {priceValue[0]}</p>
-                    <p>До {priceValue[1]}</p>
-                </div>
-                <Slider
-                    className='price-slider'
-                    range
-                    min={0}
-                    max={max}
-                    defaultValue={[1, 1000]}
-                    value={priceValue}
-                    onChange={handlePrice}
-                />
-            </div>
-        </PriceFilterWrapper>
-    );
+  const handlePrice = (e) => {
+    setSliderValue(e); // Update the slider value
+    dispatch(addPriceFilter(e));
+  };
+
+  return (
+    <PriceFilterWrapper>
+      <div className='form-control'>
+        <p className='input-name'>Ціна</p>
+        <div className="price-wrapper">
+          <p>Ціна від {sliderValue[0]}</p>
+          <p>До {sliderValue[1]}</p>
+        </div>
+        <Slider
+          className='price-slider'
+          range
+          min={minPrice} 
+          max={maxPrice}
+          value={sliderValue} 
+          onChange={handlePrice}
+        />
+      </div>
+    </PriceFilterWrapper>
+  );
 };
 
-
-export default PriceFilter
+export default PriceFilter;
 
 const PriceFilterWrapper = styled.div`
-width: 100%;
-margin-top: 0;
+  width: 100%;
 
  .form-control {
     padding-bottom: 2rem;
-    padding-left: 0;
     border-radius: 0;
     margin-top: 0;
     border-top: none;
@@ -64,21 +62,21 @@ margin-top: 0;
     border-bottom: 1px solid #e9e9e9;
 
     h5 {
-      margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
     }
 
     .price-wrapper {
-        padding-right: 1.5rem;
-        display: flex;
-        justify-content: space-between;
-
-        @media (max-width: 768px) {
-       flex-direction: column;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+      
+      @media (max-width: 768px) {
+    flex-direction: column;
       }
     }
     .price-slider {
-        padding-right: 1.5rem;
-        width: 85%;
+     margin-left: 0.5rem;
+     width: 90%;
     }
   }
 

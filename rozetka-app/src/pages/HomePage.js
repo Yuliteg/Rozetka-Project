@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from 'styled-components';
 import Loading from "../components/Loading";
 import MainContainer from "../components/MainContainer";
-import { fetchGoods } from "../helpersFunction/getGoods";
+import { fetchGoods } from "../helpersFunction/getProd";
 
 const HomePage = () => {
   const { goods, isLoading, isError } = useSelector(store => store.product);
