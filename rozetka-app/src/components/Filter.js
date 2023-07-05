@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-// import PriceFilter from './filters/PriceFilter';
-import Checkbox from './filters/Checkbox';
+import Checkbox from './filters/CheckBox';
 import PriceFilter from "./filters/PriceFilter";
 
 
