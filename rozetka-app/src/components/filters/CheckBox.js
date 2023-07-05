@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addCheckboxFilter, removeCheckboxFilter } from "../../store/slices/goodsSlice";
 import { useEffect, useState } from "react";
-import { getUniqueValues } from "../../helpersFunction/uniqueValues";
+import { getUniqueValues } from "../../helpersFunction/UniqueValues";
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
