@@ -10,20 +10,17 @@ const PriceFilter = () => {
   const dispatch = useDispatch();
   const goods = useSelector((state) => state.product.goods);
   const priceFilter = useSelector((state) => state.product.priceFilter);
-  const [sliderValue, setSliderValue] = useState(priceFilter); // Separate state for slider value
-  const [minPrice, setMinPrice] = useState(priceFilter[0])
-  const [maxPrice, setMaxPrice] = useState(priceFilter[1])
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
 
   useEffect(() => {
     const prices = goods.map((item) => item.price);
-    setMinPrice(Math.min(...prices))
-    setMaxPrice(Math.max(...prices))
-    setSliderValue([minPrice, maxPrice]); // Set slider value separately from priceFilter
-  }, [goods, minPrice, maxPrice]);
+    setMinPrice(Math.min(...prices));
+    setMaxPrice(Math.max(...prices));
+  }, [goods]);
 
-  const handlePrice = (e) => {
-    setSliderValue(e); // Update the slider value
-    dispatch(addPriceFilter(e));
+  const handlePrice = (sliderValue) => {
+    dispatch(addPriceFilter(sliderValue));
   };
 
   return (
@@ -31,15 +28,15 @@ const PriceFilter = () => {
       <div className='form-control'>
         <p className='input-name'>Ціна</p>
         <div className="price-wrapper">
-          <p>Ціна від {sliderValue[0]}</p>
-          <p>До {sliderValue[1]}</p>
+          <p>Ціна від {priceFilter[0]}</p>
+          <p>До {priceFilter[1]}</p>
         </div>
         <Slider
           className='price-slider'
           range
           min={minPrice} 
           max={maxPrice}
-          value={sliderValue} 
+          value={priceFilter} 
           onChange={handlePrice}
         />
       </div>

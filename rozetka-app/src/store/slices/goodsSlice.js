@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchGoods } from '../../helpersFunction/getProd';
+import { filterGoodsByPriceAndCheckbox } from '../../helpersFunction/filterGoodsByPriceCheckbox';
+import { applyFilters } from '../../helpersFunction/applyFilters';
 
 const initialState = {
   isError: false,
@@ -13,27 +15,9 @@ const initialState = {
     brand: [],
   },
   sort: '',
+  priceFilterActive: false,
   priceFilter: [0, 21999],
 }
-
-const filterGoodsByPriceAndCheckbox = (state) => {
-  const { filters, goods, priceFilter } = state;
-
-  return goods.filter((item) => {
-    const isPriceInRange = item.price >= priceFilter[0] && item.price <= priceFilter[1];
-
-    const isActiveCheckboxFilter = (item) => {
-      for (const filterType in filters) {
-        if (filters[filterType].length > 0 && !filters[filterType].includes(item[filterType])) {
-          return false;
-        }
-      }
-      return true;
-    };
-
-    return isPriceInRange && isActiveCheckboxFilter(item);
-  });
-};
 
 export const filterSlice = createSlice({
   name: 'product',
@@ -56,48 +40,38 @@ export const filterSlice = createSlice({
     },
 
     addPriceFilter: (state, { payload }) => {
+      state.priceFilterActive = true;
       state.priceFilter = payload;
+
+      // Apply the price and checkbox filters
       state.filteredGoods = filterGoodsByPriceAndCheckbox(state);
     },
 
     addCheckboxFilter: (state, { payload }) => {
-      const filteredGoodsCopy = [...state.goods];
       const { filterType, value } = payload;
 
+      // Add the new checkbox filter to the filters state
       state.filters[filterType] = [...state.filters[filterType], value];
 
-      const activeFilters = state.filters;
-
-      state.filteredGoods = filteredGoodsCopy.filter((item) => {
-        for (const filterType in activeFilters) {
-          if (activeFilters[filterType].length > 0 && !activeFilters[filterType].includes(item[filterType])) {
-            return false;
-          }
-        }
-        return true;
-      });
+      state.filteredGoods = applyFilters(state)
     },
     removeCheckboxFilter: (state, { payload }) => {
-      const filteredGoodsCopy = [...state.goods];
       const { filterType, value } = payload;
 
+      // Remove the checkbox filter from the filters state
       state.filters[filterType] = state.filters[filterType].filter((el) => el !== value);
 
-      const activeFilters = state.filters;
+      // Update the filteredGoods state based on the remaining active checkbox filters
+      state.filteredGoods = filterGoodsByPriceAndCheckbox(state);
 
-      state.filteredGoods = filteredGoodsCopy.filter((item) => {
-        for (const filterType in activeFilters) {
-          if (activeFilters[filterType].length > 0 && !activeFilters[filterType].includes(item[filterType])) {
-            return false;
-          }
-        }
-        return true;
-      });
+      // Check if there are any active checkbox filters left
+      const activeCheckboxFilters = Object.values(state.filters).some((filterArr) => filterArr.length > 0);
 
-      const noActiveFilters = Object.values(activeFilters).every((filterArr) => filterArr.length === 0);
-      if (noActiveFilters) {
+      if (!activeCheckboxFilters) {
+        // If there are no active checkbox add without sorting
         state.sort = 'without-sorting';
-        state.filteredGoods = [...state.goods];
+        // If there are no active checkbox filters left, reapply the price filter
+        state.filteredGoods = filterGoodsByPriceAndCheckbox(state);
       }
     },
   },
