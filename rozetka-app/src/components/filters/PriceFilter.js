@@ -19,7 +19,7 @@ const PriceFilter = () => {
     setMinPrice(Math.min(...prices))
     setMaxPrice(Math.max(...prices))
     setSliderValue([minPrice, maxPrice]); // Set slider value separately from priceFilter
-  }, [goods]);
+  }, [goods, minPrice, maxPrice]);
 
   const handlePrice = (e) => {
     setSliderValue(e); // Update the slider value
