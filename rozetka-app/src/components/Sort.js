@@ -1,26 +1,31 @@
-import Select from 'react-select'
-import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { sortByPriceUp, sortByPriceDown, sortByRating, setSortOption, withoutSorting } from '../store/slices/goodsSlice';
-import { useEffect } from 'react';
+import Select from "react-select";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  sortByPriceUp,
+  sortByPriceDown,
+  sortByRating,
+  setSortOption,
+  withoutSorting,
+} from "../store/slices/goodsSlice";
+import { useEffect } from "react";
 
 const options = [
-  { value: 'without-sorting', label: 'Без сортування' },
-  { value: 'price-lowest', label: 'Від дешевих до дорогих' },
-  { value: 'price-highests', label: 'Від дорогих до дешевих' },
-  { value: 'price-rating', label: 'За рейтингом' }
-]
+  { value: "without-sorting", label: "Без сортування" },
+  { value: "price-lowest", label: "Від дешевих до дорогих" },
+  { value: "price-highests", label: "Від дорогих до дешевих" },
+  { value: "price-rating", label: "За рейтингом" },
+];
 
 const colorStyles = {
   control: (styles) => ({ ...styles, borderColor: "black" }),
   dropdownIndicator: (provided) => ({
     ...provided,
-    "svg": {
-      fill: "#3e77aa"
-    }
+    svg: {
+      fill: "#3e77aa",
+    },
   }),
-}
-
+};
 
 const Sort = () => {
   const dispatch = useDispatch();
@@ -33,16 +38,16 @@ const Sort = () => {
 
   useEffect(() => {
     switch (sort) {
-      case 'price-lowest':
+      case "price-lowest":
         dispatch(sortByPriceUp());
         return;
-      case 'price-highests':
+      case "price-highests":
         dispatch(sortByPriceDown());
         return;
-      case 'price-rating':
+      case "price-rating":
         dispatch(sortByRating());
         return;
-      case 'without-sorting':
+      case "without-sorting":
         dispatch(withoutSorting());
         return;
       default:
@@ -50,7 +55,7 @@ const Sort = () => {
     }
   }, [sort, dispatch]);
 
-  const selectedOption = options.find(option => option.value === sort);
+  const selectedOption = options.find((option) => option.value === sort);
 
   return (
     <>
@@ -69,22 +74,21 @@ const Sort = () => {
 
 export default Sort;
 
-
 const Wrapper = styled.div`
-    margin-right: 3.5rem;
-    float: right;
-    width: 15%;
+  // margin-right: 3.5rem;
+  float: right;
+  width: 15%;
 
-   .sort-input {
+  .sort-input {
     border-color: transparent;
     font-size: 1rem;
     text-transform: capitalize;
     padding: 0.5rem;
   }
-  
-    label {
+
+  label {
     padding-right: 3%;
     font-size: 1rem;
     text-transform: capitalize;
   }
-  `
+`;
